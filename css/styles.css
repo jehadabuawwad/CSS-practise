@@ -1,5 +1,141 @@
-.card-container{
-    background-color: burlywood;
-    width: 300px;
-    height: 400px;
+header{
+    background-color: rgba(255, 235, 205, 0.512);
+    grid-area: header;
+    margin-bottom: 5px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+body{
+    background-color: gray;
+    box-sizing: border-box;
+    display: grid;
+    font-family: 'Ubuntu', sans-serif;
+    grid-template:
+    [row1-start] "header" auto [row1-end]
+    [row2-start] "main" auto [row2-end]
+    [row3-start] "footer" auto [row3-end]
+    / auto;
+    margin: 0px;
+    padding:5px;
+    border-radius: 10px;
+}
+
+main{
+    align-content: center;
+    display: grid;
+    grid-template:
+    [row1-start] "cards" auto [row1-end]
+    [row2-start] "posts" auto [row2-end]
+    / auto;
+    justify-content: center;
+}
+
+footer{
+    background-color: rgba(255, 235, 205, 0.447);
+    border-radius: 10px;
+    grid-area: footer;
+    margin-bottom: 5px;
+    padding: 15px;
+   
+}
+
+.cards-container{
+    background-color: blanchedalmond;
+    border-radius: 10px;
+    display: grid;
+    grid-area: cards;
+    gap: 10px 10px;
+    grid-template:
+    [row1-start] "card" auto [row1-end]
+    / 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+    place-items: center;
+    padding: 10px 10px;
+    margin: 10px 10px;   
+}
+
+.posts-container{
+    background-color: blanchedalmond;
+    border-radius: 10px;
+    display: grid;
+    grid-area: posts;
+    gap: 10px 10px;
+    grid-template:
+    [row1-start] "post" auto [row1-end]
+    [row1-start] "post" auto [row1-end]
+    / 1fr 1fr ;
+    grid-auto-flow: column;
+    place-items: center;
+    padding: 10px 10px;
+    margin: 10px 10px;   
+}
+
+.card-item{
+    background-color: grey;
+    margin: 1%;
+    padding: 5%;
+    border-radius: 10px;
+    border-width: 0px;
+    
+}
+.post1-item{
+    background-color: rgb(207, 202, 202);
+    grid-area: post;
+    margin: 1%;
+    padding: 5%;
+    border-radius: 10px;
+    border-width: 0px;
+    grid-column: 1 / 2;
+    grid-row: 1;
+
+}
+.post2-item{
+    background-color: rgb(207, 202, 202);
+    grid-area: post;
+    margin: 1%;
+    padding: 5%;
+    border-radius: 10px;
+    border-width: 0px;
+    grid-column: 1 / 2 ;
+    grid-row: 2;
+
+}
+
+.header-title{
+    text-align: center;
+
+}
+
+.footer-title{
+    text-align: center;
+}
+
+.post1-title{
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+.first-card{
+    align-self: center;
+    justify-self: center;
+}
+
+.card-title{
+    color: whitesmoke;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-paragraph{
+    color: whitesmoke;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
+
+.post1-paragraph{
+    text-align: center;
+
 }
