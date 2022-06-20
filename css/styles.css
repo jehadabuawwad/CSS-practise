@@ -1,5 +1,117 @@
-.card-container{
-    background-color: burlywood;
-    width: 300px;
-    height: 400px;
+header {
+  background-color: rgba(255, 235, 205, 0.512);
+  margin-bottom: 5px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+body {
+  background-color: gray;
+  box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+  margin: 0px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  justify-items: center;
+}
+
+footer {
+  background-color: rgba(255, 235, 205, 0.447);
+  border-radius: 10px;
+  grid-area: footer;
+  margin-bottom: 5px;
+  padding: 15px;
+}
+
+.cards-container {
+  align-content: center;
+  background-color: blanchedalmond;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px 10px;
+  justify-content: center;
+  padding: 20px 10px;
+  width: 98%;
+}
+
+.posts-container {
+  align-items: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px 10px;
+  margin: 10px 10px;
+  padding: 10px 10px;
+  width: 97%;
+}
+
+.card-item {
+  background-color: grey;
+  border-radius: 10px;
+  border-width: 0px;
+  margin: 1%;
+  padding: 1%;
+  width: 20%;
+  height: 25%;
+}
+
+.post1-item {
+  background-color: rgb(207, 202, 202);
+  border-radius: 10px;
+  border-width: 0px;
+  display: grid;
+  grid-template:
+    [row1-start] "post" auto [row1-end]
+    / 1fr 1fr;
+  justify-items: center;
+  margin: 1%;
+  padding: 5%;
+  width: 75%;
+  height: 300px;
+}
+
+.post2-item {
+  background-color: rgb(207, 202, 202);
+  border-radius: 10px;
+  border-width: 0px;
+  display: grid;
+  grid-template:
+    [row1-start] "post" auto [row1-end]
+    / 1fr 1fr;
+  justify-items: center;
+  padding: 5%;
+  width: 75%;
+  height: 300px;
+}
+
+.header-title {
+  text-align: center;
+}
+.footer-title {
+  text-align: center;
+}
+.post1-title {
+  width: 80%;
+}
+.post2-title {
+  width: 80%;
+}
+.post1-paragraph {
+  width: 80%;
+}
+.post2-paragraph {
+  width: 80%;
+}
+.image {
+  width: 80%;
+  height: 60%;
+  border-radius: 10px;
 }
