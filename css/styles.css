@@ -1,5 +1,84 @@
-.card-container{
-    background-color: burlywood;
-    width: 300px;
-    height: 400px;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+main {
+  display: grid;
+  grid-template:
+    [row1-start] "website-title" auto [row1-end]
+    [row1-start] "counter" auto [row1-end]
+    [row2-start] "cards" auto [row2-end] / auto;
+}
+
+.website-title {
+  font-size: x-large;
+  grid-area: website-title;
+  margin-left: 20px;
+}
+.counter {
+  color: black;
+  grid-area: counter;
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.cards-list {
+  display: grid;
+  gap: 10px 10px;
+  grid-area: cards;
+  grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+  margin: 20px;
+}
+
+.card-item {
+  background-color: white;
+  border: 2px solid gainsboro;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+}
+
+.card-item > :not(.card-image) {
+  margin-left: 10px;
+}
+
+.card-image {
+  width: 100%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  justify-content: stretch;
+  min-height: auto;
+  padding: 10px 10px;
+}
+
+.colored {
+  background-color: red;
+}
+.card-title {
+  margin-bottom: 10px;
+}
+
+.card-button {
+  background-color: #1e90ff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-width: 0px;
+  height: 40px;
+  left: 10px;
+  margin-top: 5px;
+  margin-bottom: 16px;
+  position: relative;
+  transition-duration: 0.4s;
+  width: 100px;
+}
+
+.card-button:hover {
+  background-color: #0080ff; /* Green */
+  color: white;
+  cursor: pointer;
 }
