@@ -1,126 +1,172 @@
-const API_URL = "https://jsonplaceholder.typicode.com/photos";
+class LoadData {
+  #API_URL = "https://jsonplaceholder.typicode.com/photos";
+  constructor() {
+    this.config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  }
+  async #fetchWithTimeout(resource, body = undefined, timeout = 5000) {
+    try {
+      const abortController = new AbortController();
+      const id = setTimeout(() => abortController.abort(), timeout);
+      const fetcher = body
+        ? fetch(resource, {
+            ...this.config,
+            signal: abortController.signal,
+            body,
+          })
+        : await fetch(resource);
+      const response = await Promise.race([fetcher, id]);
+      const data = await response.json();
+      clearTimeout(id);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
-const request = async function (url, uploadData = undefined) {
-  try {
-    const fetchPro = uploadData
-      ? fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(uploadData),
-        })
-      : fetch(url);
-
-    const res = await Promise.race([fetchPro, timeout(10)]);
-    const data = await res.json();
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+  async LoadData() {
+    const data = await this.#fetchWithTimeout(this.#API_URL);
     return data;
-  } catch (err) {
-    throw err;
   }
-};
+}
 
-let state = {
-  cards: [],
-  counter: 0,
-  selectedItems: new Map(),
-};
-
-export const loadData = async function () {
-  try {
-    const data = await request(`${API_URL}`);
-    state.cards = data;
-  } catch (error) {
-    throw error;
+class BuildApp {
+  constructor() {
+    this.dataLoader = new LoadData();
+    this.state = {
+      counter: 0,
+      selectedItems: new Map(),
+    };
+    this.#createApp();
   }
-};
 
-const main = document.getElementById("root");
-const counter = document.createElement("h3");
-
-const createWebTitle = async function () {
-  const websiteTitle = document.createElement("h3");
-  websiteTitle.textContent = "Lorem Ipsum";
-  websiteTitle.setAttribute("class", "website-title");
-  main.appendChild(websiteTitle);
-};
-
-const createCounter = async function () {
-  counter.setAttribute("class", "counter");
-  counter.textContent = `counter ${state.counter}`;
-  const cards = document.querySelector("cards-list");
-  main.insertBefore(counter, cards);
-};
-
-const createCards = async function () {
-  const cardsContainer = document.createElement("h3");
-  cardsContainer.setAttribute("class", "cards-list");
-  main.appendChild(cardsContainer);
-  for (let i = 0; i < 19; i++) {
-    const cardsMarkup = `<div class="card-item"></div>`;
-    cardsContainer.insertAdjacentHTML("afterbegin", cardsMarkup);
-  }
-};
-
-const BuildUI = async function () {
-  await createWebTitle();
-  await createCounter();
-  await createCards();
-  await loadData();
-  const data = state.cards;
-  const cards = document.querySelectorAll(".cards-list > .card-item");
-
-  cards.forEach((el, ind) => {
-    const imageMarkup = `<img class="card-image" alt="image" src=${data[ind].thumbnailUrl}></img>`;
-    const contentMarkup = `<div class="card-content"></div>`;
-    const buttonMarkup = `<button name=${data[ind].id} type="button" class="card-button">Button</button>`;
-    el.insertAdjacentHTML("beforeend", imageMarkup);
-    el.insertAdjacentHTML("beforeend", contentMarkup);
-    el.insertAdjacentHTML("beforeend", buttonMarkup);
-  });
-  const cardsContent = document.querySelectorAll(".card-content");
-  cardsContent.forEach((el, ind) => {
-    const titleMarkup = `<h3 class="card-title">${data[ind].title}</h3>`;
-    const descriptionMarkup = `<p class="card-description">${data[ind].title}</p>`;
-    el.insertAdjacentHTML("beforeend", titleMarkup);
-    el.insertAdjacentHTML("beforeend", descriptionMarkup);
-  });
-};
-
-await BuildUI();
-
-const buttons = document.querySelectorAll(".card-button");
-buttons.forEach((button) => {
-  let count = 0;
-  button.addEventListener("click", (e) => {
-    let targeted = Number(
-      e.target.parentNode.querySelector(".card-button").name
-    );
-    state.selectedItems.set(targeted, true);
-
-    count++ % 2 === 0
-      ? state.selectedItems.set(targeted, true)
-      : state.selectedItems.set(targeted, false);
-
-    if (!state.selectedItems.get(targeted)) {
-      e.target.parentNode.classList.remove("colored");
-      state.selectedItems.delete(targeted);
-      state.counter = state.selectedItems.size;
+  selectElement(name) {
+    switch (name) {
+      case "main":
+        return document.getElementById("root");
+      case "buttons":
+        return document.querySelectorAll(
+          ".cards-list > .card-item > .card-button "
+        );
+      case "cardsList":
+        return document.querySelector(".cards-list");
+      case "cardsItems":
+        return document.querySelectorAll(".cards-list > .card-item");
+      case "cardsContent":
+        return document.querySelectorAll(".card-content");
+      case "counter":
+        return document.querySelector(".counter");
+      default:
+        break;
     }
-    if (!!state.selectedItems.get(targeted)) {
-      state.selectedItems.set(targeted, true);
-      e.target.parentNode.classList.add("colored");
-      state.counter = state.selectedItems.size;
+  }
+
+  createElement(type) {
+    return document.createElement(type);
+  }
+
+  async createWebTitle() {
+    const websiteTitle = this.createElement("h3");
+    websiteTitle.textContent = "Lorem Ipsum";
+    websiteTitle.setAttribute("class", "website-title");
+    this.selectElement("main").appendChild(websiteTitle);
+  }
+
+  async createCounter() {
+    const counter = this.createElement("h3");
+    counter.setAttribute("class", "counter");
+    counter.textContent = `counter ${this.state.counter}`;
+    const cards = this.selectElement("cards");
+    this.selectElement("main").insertBefore(counter, cards);
+  }
+
+  async createCards() {
+    const cardsList = this.createElement("div");
+    cardsList.setAttribute("class", "cards-list");
+    this.selectElement("main").appendChild(cardsList);
+    for (let i = 0; i < 19; i++) {
+      const cardItem = this.createElement("div");
+      cardItem.setAttribute("class", "card-item");
+      const cardsList = this.selectElement("cardsList");
+      cardsList.appendChild(cardItem);
     }
-    counter.textContent = `counter ${state.counter}`;
-  });
-});
+  }
+
+  async createCardsContent() {
+    const data = await this.dataLoader.LoadData();
+    const cards = this.selectElement("cardsItems");
+    cards.forEach((el, ind) => {
+      const image = this.createElement("img");
+      image.setAttribute("class", "card-image");
+      image.setAttribute("alt", "image");
+      image.setAttribute("src", data[ind].thumbnailUrl);
+      el.appendChild(image);
+
+      const content = this.createElement("div");
+      content.setAttribute("class", "card-content");
+      el.appendChild(content);
+
+      const button = this.createElement("button");
+      button.setAttribute("type", "button");
+      button.setAttribute("name", data[ind].id);
+      button.setAttribute("class", "card-button");
+      button.textContent = "Button";
+      el.appendChild(button);
+    });
+
+    const cardsContent = this.selectElement("cardsContent");
+    cardsContent.forEach((el, ind) => {
+      const title = this.createElement("h3");
+      title.setAttribute("class", "card-title");
+      title.textContent = data[ind].title;
+      el.appendChild(title);
+      const description = this.createElement("p");
+      description.setAttribute("class", "card-title");
+      description.textContent = data[ind].title;
+      el.appendChild(description);
+    });
+  }
+
+  async createSelection() {
+    const buttons = this.selectElement("buttons");
+    const selected = this.state.selectedItems;
+    let counter = this.state.counter;
+    buttons.forEach((button) => {
+      let count = 0;
+      button.addEventListener("click", (e) => {
+        let targeted = Number(
+          e.target.parentNode.querySelector(".card-button").name
+        );
+        selected.set(targeted, true);
+        count++ % 2 === 0
+          ? selected.set(targeted, true)
+          : selected.set(targeted, false);
+        if (!this.state.selectedItems.get(targeted)) {
+          e.target.parentNode.classList.remove("colored");
+          selected.delete(targeted);
+          counter = selected.size;
+        }
+        if (!!this.state.selectedItems.get(targeted)) {
+          selected.set(targeted, true);
+          e.target.parentNode.classList.add("colored");
+          counter = selected.size;
+        }
+        this.selectElement("counter").textContent = `counter ${counter}`;
+      });
+    });
+  }
+
+  async #createApp() {
+    await this.createWebTitle();
+    await this.createCounter();
+    await this.createCards();
+    await this.createCardsContent();
+    await this.createSelection();
+  }
+}
+
+const UI = new BuildApp();
