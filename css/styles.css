@@ -52,8 +52,8 @@ main {
   display: flex;
   flex-direction: column;
   font-size: 15px;
-  justify-content: stretch;
-  min-height: auto;
+  justify-content: flex-start;
+  min-height: 120px;
   padding: 10px 10px;
 }
 
