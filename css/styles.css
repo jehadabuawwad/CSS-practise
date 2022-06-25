@@ -1,35 +1,55 @@
 * {
+  box-sizing: border-box;
+  font-family: "Merriweather Sans", sans-serif;
   margin: 0px;
   padding: 0px;
-  box-sizing: border-box;
 }
 
 main {
   display: grid;
   grid-template:
     [row1-start] "website-title" auto [row1-end]
-    [row1-start] "counter" auto [row1-end]
-    [row2-start] "cards" auto [row2-end] / auto;
+    [row2-start] "counter" auto [row2-end]
+    [row3-start] "colors" auto [row3-end]
+    [row4-start] "cards" auto [row4-end] / auto;
+}
+
+.website-header {
+  animation: fadeOut 1s;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  height: auto;
+  width: 100%;
+  z-index: 1;
 }
 
 .website-title {
   font-size: x-large;
   grid-area: website-title;
-  margin-left: 20px;
+  margin-left: 1vw;
 }
+
 .counter {
-  color: black;
   grid-area: counter;
   font-size: 18px;
-  margin-left: 20px;
+  margin-left: 1vw;
+}
+
+.colors-list {
+  grid-area: colors;
+  font-size: 18px;
+  margin-left: 1vw;
 }
 
 .cards-list {
+  animation: slideUp 1s, fadeOut 1s;
   display: grid;
-  gap: 10px 10px;
+  gap: 20px 20px;
   grid-area: cards;
-  grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
-  margin: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  margin-top: 70px;
+  padding: 20px;
 }
 
 .card-item {
@@ -38,13 +58,15 @@ main {
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
+  width: 100%;
 }
 
-.card-item > :not(.card-image) {
+.card-item > :not(.card-header) {
   margin-left: 10px;
 }
 
-.card-image {
+.card-header {
+  height: 400px;
   width: 100%;
 }
 
@@ -52,33 +74,78 @@ main {
   display: flex;
   flex-direction: column;
   font-size: 15px;
-  justify-content: flex-start;
-  min-height: 120px;
+  justify-content: start;
   padding: 10px 10px;
+  width: 100%;
 }
 
-.colored {
-  background-color: red;
+.green-colored {
+  background-color: green;
 }
+
+.red-colored {
+  background-color: #ff1e1e;
+}
+
 .card-title {
   margin-bottom: 10px;
 }
 
 .card-button {
-  background-color: #1e90ff;
+  animation-fill-mode: both;
+  background-color: #ff1e1e;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-width: 0px;
+  color: white;
+  cursor: pointer;
+  font-size: medium;
   height: 40px;
   left: 10px;
   margin-top: 5px;
   margin-bottom: 16px;
   position: relative;
-  transition-duration: 0.4s;
   width: 100px;
 }
+.card-animation-start {
+  animation: scaleIn 1s ease-in-out;
+}
+.card-animation-end {
+  animation: scaleOut 1s ease-in-out;
+}
 
-.card-button:hover {
-  background-color: #0080ff; /* Green */
-  color: white;
-  cursor: pointer;
+@keyframes scaleOut {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
