@@ -12,6 +12,7 @@ main {
     [row2-start] "counter" auto [row2-end]
     [row3-start] "colors" auto [row3-end]
     [row4-start] "cards" auto [row4-end] / auto;
+  background-color: whitesmoke;
 }
 
 .website-header {
@@ -45,10 +46,10 @@ main {
 .cards-list {
   animation: slideUp 1s, fadeOut 1s;
   display: grid;
-  gap: 20px 20px;
+  gap: 40px 20px;
   grid-area: cards;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  margin-top: 70px;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  margin-top: 100px;
   padding: 20px;
 }
 
@@ -75,7 +76,7 @@ main {
   flex-direction: column;
   font-size: 15px;
   justify-content: start;
-  padding: 10px 10px;
+  padding: 10px 16px;
   width: 100%;
 }
 
