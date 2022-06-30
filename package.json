@@ -1,0 +1,29 @@
+{
+  "name": "cardio",
+  "version": "1.0.0",
+  "description": "Training for second phase at socium tech in CSS",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jehadabuawwad/CSS-practise.git"
+  },
+  "keywords": [
+    "CSS"
+  ],
+  "author": "Jehad Abu Awwad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jehadabuawwad/CSS-practise/issues"
+  },
+  "homepage": "https://github.com/jehadabuawwad/CSS-practise#readme",
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "coloraze": "^1.0.1"
+  }
+}
